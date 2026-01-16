@@ -101,7 +101,7 @@ function botMove() {
 
     move = emptyCells[Math.floor(Math.random() * emptyCells.length)];
   } //bot will be making a random move <- 'should happen ONLY if the bot can't make a two combo anymore, and a player thus might win' 
-  //'previous code makes it so it does it random even when it could win, thus tada random' -Eleanor 
+  //'previous code makes it so it does it random even when it could win, thus the random is added' -Eleanor 
 
   board[move] = "O";
   cells[move].textContent = "O";
