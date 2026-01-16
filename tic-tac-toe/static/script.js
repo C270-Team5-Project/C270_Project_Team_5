@@ -1,3 +1,9 @@
+console.log("[script.js] loaded");
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("[script.js] DOMContentLoaded");
+});
+``
+
 const cells = document.querySelectorAll(".cell");
 const statusText = document.getElementById("status");
 const themeToggle = document.getElementById("theme-toggle");
