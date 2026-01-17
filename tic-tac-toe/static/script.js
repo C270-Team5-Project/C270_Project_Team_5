@@ -112,11 +112,11 @@ themeToggle.addEventListener("click", () => {
 });
 
 // Load saved theme
-window.onload = () => {
+window.addEventListener("load", () => {
   if (localStorage.getItem("theme") === "dark") {
     document.body.classList.add("dark");
   }
-};
+});
 
 //===== Mode Selector =====//
 modeSelect.addEventListener("change", () => {
