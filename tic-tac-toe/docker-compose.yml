@@ -1,0 +1,18 @@
+services:
+  db:
+    image: mysql:8
+    container_name: ttt_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: ttt_app
+      MYSQL_USER: ttt_user
+      MYSQL_PASSWORD: ttt_pass
+    ports:
+      - "3307:3306"               # pls dont change to 5000:5000 like in stack.yml, port is intended
+    volumes:
+      - ttt_data:/var/lib/mysql   
+      - ./docker-init:/dockser-entrypoint-initdb.d
+
+volumes:
+  ttt_data:
