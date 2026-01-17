@@ -1,0 +1,29 @@
+
+version: "3.8"
+
+services: 
+  tictactoe:
+    build: .
+    image: tttapp:latest
+    ports:
+      - "5000:5000"
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+      update_config:
+        parallelism: 1
+        order: start-first
+        delay: 3s
+        failure_action: rollback
+      rollback_config:
+        parallelism: 1
+        order: stop-first
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:5000/ || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
