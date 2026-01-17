@@ -67,6 +67,7 @@ button {
   border-radius: 6px;
 }
 
+/* ⚙️ Settings button */
 #settings-btn {
   position: fixed;
   top: 20px;
@@ -74,11 +75,17 @@ button {
   font-size: 22px;
   padding: 8px 10px;
   border-radius: 50%;
-  border: none;
   cursor: pointer;
-  background: white;
+  background-color: #ffffff;
+  color: #000000;
 }
 
+body.dark #settings-btn {
+  background-color: #1e1e1e;
+  color: #ffffff;
+}
+
+/* Settings panel */
 #settings-panel {
   position: fixed;
   top: 70px;
@@ -86,25 +93,46 @@ button {
   width: 220px;
   padding: 15px;
   border-radius: 10px;
-  background: white;
+  background-color: #ffffff;
   box-shadow: 0 4px 12px rgba(0,0,0,0.25);
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
+body.dark #settings-panel {
+  background-color: #1e1e1e;
+  color: #ffffff;
+}
+
+/* Hide panel */
 .hidden {
   display: none;
 }
 
-/* Dark mode */
-body.dark {
-  background-color: #121212;
-  color: white;
+/* Settings panel content */
+#settings-panel h3 {
+  margin: 0;
+  font-size: 18px;
+  text-align: center;
 }
 
-body.dark #settings-btn,
-body.dark #settings-panel {
-  background: #1e1e1e;
-  color: white;
+#settings-panel label {
+  font-size: 14px;
+}
+
+/* Make settings controls full width */
+#settings-panel button,
+#settings-panel select {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Dropdown styling */
+#settings-panel select {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--cell-border);
+  background-color: var(--cell-bg);
+  color: var(--text-color);
 }
