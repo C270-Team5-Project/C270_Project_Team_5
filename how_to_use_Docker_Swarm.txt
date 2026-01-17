@@ -1,7 +1,7 @@
 docker swarm init (use "docker node ls" to check if it worked)
 
 docker stack deploy -c stack.yml tttstack (tttstack is just the stack name, you can change to wtv u want)
--NOTE- Use "docker stack ls", "docker service ls" and "docker services tttstack_tictactoe" to check if it works
+-NOTE- Use "docker stack ls", "docker service ls" and "docker ps -a" to check if it works
 
 docker service ps tttstack_tictactoe (to check services)
 
@@ -11,6 +11,7 @@ docker service scale tttstack_tictactoe=5
 docker service ps tttstack_tictactoe
 
 -- For Self Healing (creates a container when one fails/is removed) --
+docker ps -a
 docker rm -f tttstack_tictactoe.1 (service name)
 
 -- Exit DockerSwarm --
