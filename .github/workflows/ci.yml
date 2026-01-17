@@ -1,0 +1,27 @@
+name: CI Pipeline
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Verify required files exist
+        run: |
+          test -f templates/index.html
+          test -d static
+          test -f static/style.css
+          test -f static/script.js
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: JavaScript syntax check
+        run: node --check static/script.js
