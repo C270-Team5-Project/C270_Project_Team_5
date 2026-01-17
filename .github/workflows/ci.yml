@@ -7,9 +7,12 @@ on:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: tic-tac-toe
+
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Verify required files exist
         run: |
