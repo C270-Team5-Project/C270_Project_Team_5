@@ -1,42 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
-    <title>Tic Tac Toe</title>
-    <link rel="stylesheet" href="static/style.css" />
-    
+  <meta charset="UTF-8" />
+  <title>Tic Tac Toe</title>
+  <link rel="stylesheet" href="static/style.css" />
+  <script src="static/script.js" defer></script>
 </head>
-<script src="static/script.js" defer></script>
+
 <body>
-    <h1>Tic Tac Toe</h1>
+  <h1>Tic Tac Toe</h1>
+
+  <!-- ⚙️ Settings button -->
+  <button id="settings-btn" title="Settings">⚙️</button>
+
+  <!-- Settings panel -->
+  <div id="settings-panel" class="hidden" style="display: none;">
+    <h3>Settings</h3>
 
     <button id="theme-toggle">Toggle Dark / Light Mode</button>
 
+    <label for="mode-select">Game Mode</label>
     <select id="mode-select">
-        <option value="2p">Two Player</option>
-        <option value="bot">Player vs Bot</option>
+      <option value="2p">Two Player</option>
+      <option value="bot">Player vs Bot</option>
     </select>
-    <br>
+  </div>
 
-    <div id="status">Player X's turn</div>
+  <div id="status">Player X's turn</div>
 
-    <div id="board">
-        <div class="cell" data-index="0"></div>
-        <div class="cell" data-index="1"></div>
-        <div class="cell" data-index="2"></div>
-        <div class="cell" data-index="3"></div>
-        <div class="cell" data-index="4"></div>
-        <div class="cell" data-index="5"></div>
-        <div class="cell" data-index="6"></div>
-        <div class="cell" data-index="7"></div>
-        <div class="cell" data-index="8"></div>
-    </div>
+  <div id="board">
+    <div class="cell" data-index="0"></div>
+    <div class="cell" data-index="1"></div>
+    <div class="cell" data-index="2"></div>
+    <div class="cell" data-index="3"></div>
+    <div class="cell" data-index="4"></div>
+    <div class="cell" data-index="5"></div>
+    <div class="cell" data-index="6"></div>
+    <div class="cell" data-index="7"></div>
+    <div class="cell" data-index="8"></div>
+  </div>
 
-    <button onclick="resetGame()">Restart Game</button>
-
-    <!-- <script src="script.js"></script> --> 
-    <!--FOR FUTURE: USE THE SLASH JIC FOR THE DOCKER ACCEPTABLE FORMATTING-->
+  <button onclick="resetGame()">Restart Game</button>
 </body>
-
 </html>
