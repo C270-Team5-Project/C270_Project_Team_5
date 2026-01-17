@@ -107,11 +107,6 @@ body.dark #settings-panel {
   color: white;
 }
 
-/* Hide panel */
-.hidden {
-  display: none;
-}
-
 /* Settings content */
 #settings-panel h3 {
   margin: 0;

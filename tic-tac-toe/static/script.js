@@ -20,7 +20,11 @@ const winningThreeCombinations = [
 
 //===== Settings Panel Toggle =====//
 settingsBtn.addEventListener("click", () => {
-  settingsPanel.classList.toggle("hidden");
+  if (settingsPanel.style.display === "none") {
+    settingsPanel.style.display = "flex";
+  } else {
+    settingsPanel.style.display = "none";
+  }
 });
 
 //===== Game Logic =====//
