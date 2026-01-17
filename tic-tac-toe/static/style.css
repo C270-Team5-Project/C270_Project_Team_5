@@ -8,7 +8,7 @@
   --button-text: #ffffff;
 }
 
-/* Dark mode variables */
+/* Dark mode */
 body.dark {
   --bg-color: #121212;
   --text-color: #ffffff;
@@ -30,7 +30,7 @@ body {
   margin-top: 40px;
 }
 
-/* Game board */
+/* Board */
 #board {
   display: grid;
   grid-template-columns: repeat(3, 100px);
@@ -55,7 +55,7 @@ body {
   background-color: var(--hover-bg);
 }
 
-/* General buttons */
+/* Buttons */
 button {
   padding: 8px 16px;
   margin: 5px;
@@ -76,13 +76,14 @@ button {
   padding: 8px 10px;
   border-radius: 50%;
   cursor: pointer;
-  background-color: #ffffff;
-  color: #000000;
+  background-color: white;
+  color: black;
+  z-index: 9999;
 }
 
 body.dark #settings-btn {
   background-color: #1e1e1e;
-  color: #ffffff;
+  color: white;
 }
 
 /* Settings panel */
@@ -93,16 +94,17 @@ body.dark #settings-btn {
   width: 220px;
   padding: 15px;
   border-radius: 10px;
-  background-color: #ffffff;
+  background-color: white;
   box-shadow: 0 4px 12px rgba(0,0,0,0.25);
   display: flex;
   flex-direction: column;
   gap: 10px;
+  z-index: 9998;
 }
 
 body.dark #settings-panel {
   background-color: #1e1e1e;
-  color: #ffffff;
+  color: white;
 }
 
 /* Hide panel */
@@ -110,7 +112,7 @@ body.dark #settings-panel {
   display: none;
 }
 
-/* Settings panel content */
+/* Settings content */
 #settings-panel h3 {
   margin: 0;
   font-size: 18px;
@@ -121,14 +123,14 @@ body.dark #settings-panel {
   font-size: 14px;
 }
 
-/* Make settings controls full width */
+/* Full-width controls */
 #settings-panel button,
 #settings-panel select {
   width: 100%;
   box-sizing: border-box;
 }
 
-/* Dropdown styling */
+/* Dropdown */
 #settings-panel select {
   padding: 8px 10px;
   border-radius: 6px;
