@@ -59,7 +59,7 @@ function handleCellClick() {
 
 /*
   Updated checkResult() with win/tie counts:
-  - In bot mode: X = player, O = computer
+  - In bot mode: X = Player, O = Bot
   - In 2p mode: no scoreboard changes unless you want to track X/O
 */
 function checkResult() {
@@ -76,7 +76,7 @@ function checkResult() {
           statusText.textContent = "You win!";
         } else {
           scores.computer++;
-          statusText.textContent = "Computer wins!";
+          statusText.textContent = "Bot wins!";
         }
       } else {
         statusText.textContent = `Player ${currentPlayer} wins!`;
@@ -91,7 +91,7 @@ function checkResult() {
   if (!board.includes("")) {
     gameActive = false;
     scores.tie++;
-    statusText.textContent = "It's a draw!";
+    statusText.textContent = "It's a tie!";
     updateScoreboard();
     return;
   }
@@ -195,7 +195,7 @@ function updateScoreLabels() {
 
   if (mode === "bot") {
     leftLabel.textContent = "Player";
-    rightLabel.textContent = "Computer";
+    rightLabel.textContent = "Bot";
   } else {
     leftLabel.textContent = "Player X";
     rightLabel.textContent = "Player O";
@@ -205,7 +205,7 @@ function updateScoreLabels() {
 function updateTurnText() {
   if (mode === "bot") {
     statusText.textContent =
-      currentPlayer === "X" ? "Player X's turn" : "Computer's turn";
+      currentPlayer === "X" ? "Player X's turn" : "Bot's turn";
   } else {
     statusText.textContent =
       currentPlayer === "X" ? "Player X's turn" : "Player O's turn";
