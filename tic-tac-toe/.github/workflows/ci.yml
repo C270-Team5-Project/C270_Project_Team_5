@@ -1,0 +1,22 @@
+name: CI Pipeline
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Verify project files
+        run: |
+          test -f index.html
+          test -f static/style.css
+          test -f static/script.js
+
+      - name: CI completed successfully
+        run: echo "All checks passed!"
