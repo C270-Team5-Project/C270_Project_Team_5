@@ -2,7 +2,7 @@ name: Continuous Deployment
 
 on:
   push:
-    branches: [ main ] # Only triggers when code is successfully merged into main
+    branches: [ main ]
 
 jobs:
   deploy:
@@ -14,22 +14,22 @@ jobs:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          username: casualty97 
+          password: dckr_pat_7B9MRrsxq6Xu4AJI8_W8HVqQSVs
 
       - name: Build and Push
         uses: docker/build-push-action@v5
         with:
           context: ./tic-tac-toe
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/tic-tac-toe:latest
+          tags: casualty97/tic-tac-toe:latest
 
-      - name: Update Swarm Stack
+      - name: Deploy to Swarm
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/tic-tac-toe:latest
+            docker pull casualty97/tic-tac-toe:latest
             docker stack deploy -c stack.yml tttstack
