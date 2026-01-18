@@ -9,17 +9,28 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: tic-tac-toe
+        working-directory: tic-tac-toe   # CHANGE THIS if your folder name is different
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Show folder structure (debug)
+        run: |
+          echo "Repo root:"
+          ls -la ..
+          echo ""
+          echo "Working directory:"
+          pwd
+          ls -la
 
       - name: Verify required files exist
         run: |
-          test -f templates/index.html
-          test -d static
-          test -f static/style.css
-          test -f static/script.js
+          test -f templates/index.html || (echo "❌ Missing templates/index.html" && exit 1)
+          test -d static || (echo "❌ Missing static/ folder" && exit 1)
+          test -f static/style.css || (echo "❌ Missing static/style.css" && exit 1)
+          test -f static/script.js || (echo "❌ Missing static/script.js" && exit 1)
+          echo "✅ All required files exist"
 
       - name: Setup Node
         uses: actions/setup-node@v4
