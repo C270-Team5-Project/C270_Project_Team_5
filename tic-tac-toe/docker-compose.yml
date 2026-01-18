@@ -1,18 +1,12 @@
-services:
-  db:
-    image: mysql:8
-    container_name: ttt_mysql
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: ttt_app
-      MYSQL_USER: ttt_user
-      MYSQL_PASSWORD: ttt_pass
-    ports:
-      - "3307:3306"               # pls dont change to 5000:5000 like in stack.yml, port is intended
-    volumes:
-      - ttt_data:/var/lib/mysql   
-      - ./docker-init:/dockser-entrypoint-initdb.d
+version: "3.8"
 
-volumes:
-  ttt_data:
+services:
+  app:
+    build: .
+    container_name: ttt_app
+    environment:
+      DB_HOST: yttlzg.h.filess.io
+      DB_PORT: 3307
+      DB_NAME: ttt_app_listweight
+      DB_USER: ttt_app_listweight
+      DB_PASSWORD: 15c5b65ce12d927dd44652183d83a44196a54474
