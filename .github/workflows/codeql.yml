@@ -2,9 +2,16 @@ name: CodeQL Security Scan
 
 on:
   push:
+    branches: [ "main" ]
   pull_request:
+    branches: [ "main" ]
   schedule:
     - cron: "0 0 * * 0"   # weekly scan
+
+# ✅ REQUIRED permissions for uploading SARIF (Code Scanning results)
+permissions:
+  contents: read
+  security-events: write
 
 jobs:
   analyze:
