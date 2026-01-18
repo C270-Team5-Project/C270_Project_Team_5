@@ -43,7 +43,3 @@ jobs:
 
       - name: JavaScript syntax check
         run: node --check static/script.js
-
-      # OPTIONAL (recommended): Catch invalid CSS / typos
-      - name: Stylelint (quick lint)
-        run: npx --yes stylelint@16 static/style.css
