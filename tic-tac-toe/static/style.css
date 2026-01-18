@@ -30,6 +30,37 @@ body {
   margin-top: 40px;
 }
 
+/* ===== TOP RIGHT ICON CLUSTER (FINAL, WORKING) ===== */
+#top-right {
+  position: fixed;
+  top: 40px;
+  right: 50px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 99999;
+}
+
+/* Icon buttons */
+#leaderboard-btn,
+#settings-btn {
+  font-size: 22px;
+  padding: 8px 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  margin: 0;              /* IMPORTANT */
+  background-color: #ffffff;
+  color: #000000;
+}
+
+/* Dark mode icons */
+body.dark #leaderboard-btn,
+body.dark #settings-btn {
+  background-color: transparent;
+  color: #ffffff;
+}
+
 /* Board */
 #board {
   display: grid;
@@ -55,10 +86,9 @@ body {
   background-color: var(--hover-bg);
 }
 
-/* Buttons */
+/* General buttons (NOT icon buttons) */
 button {
   padding: 8px 16px;
-  margin: 5px;
   font-size: 16px;
   cursor: pointer;
   background-color: var(--button-bg);
@@ -67,30 +97,11 @@ button {
   border-radius: 6px;
 }
 
-/* ⚙️ Settings button */
-#settings-btn {
-  position: fixed;
-  top: 40px;
-  right: 50px;
-  font-size: 22px;
-  padding: 8px 10px;
-  border-radius: 50%;
-  cursor: pointer;
-  background-color: white;
-  color: black;
-  z-index: 9999;
-}
-
-body.dark #settings-btn {
-  background-color: transparent;
-  color: white;
-}
-
 /* Settings panel */
 #settings-panel {
   position: fixed;
   top: 120px;
-  right: 70px;
+  right: 50px;
   width: 220px;
   padding: 15px;
   border-radius: 10px;
@@ -118,7 +129,6 @@ body.dark #settings-panel {
   font-size: 14px;
 }
 
-/* Full-width controls */
 #settings-panel button,
 #settings-panel select {
   width: 100%;
@@ -134,7 +144,7 @@ body.dark #settings-panel {
   color: var(--text-color);
 }
 
-/* Scoreboard layout */
+/* Scoreboard */
 #scoreboard {
   display: flex;
   gap: 30px;
@@ -142,7 +152,6 @@ body.dark #settings-panel {
   font-size: 16px;
 }
 
-/* Each score block */
 .score-item {
   display: flex;
   gap: 6px;
@@ -150,27 +159,53 @@ body.dark #settings-panel {
   font-weight: bold;
 }
 
-/* Action buttons layout */
+/* Action buttons */
 #action-buttons {
   display: flex;
-  gap: 10px;              /* space between buttons */
+  gap: 10px;
   margin-top: 10px;
 }
 
-/* Force theme toggle to always look like a button */
+/* Theme toggle button */
 #theme-toggle {
-  background-color: #555555;   /* consistent grey */
+  background-color: #555555;
   color: #ffffff;
   border-radius: 8px;
   border: none;
 }
 
-/* Optional hover effect */
 #theme-toggle:hover {
   background-color: #666666;
 }
 
-/* Remove focus outline box */
 #theme-toggle:focus {
   outline: none;
+}
+
+/* Hide helper */
+.hidden { display: none; }
+
+/* Leaderboard panel (LEFT side) */
+#leaderboard-panel {
+  position: fixed;
+  top: 120px;
+  left: 50px;            /* LEFT side */
+  width: 260px;
+  padding: 15px;
+  border-radius: 10px;
+  background-color: black;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 9998;
+}
+
+body.dark #leaderboard-panel {
+  background-color: white;
+  color: black;
+}
+
+.hidden {
+  display: none !important;
 }

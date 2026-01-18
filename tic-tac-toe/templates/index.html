@@ -12,10 +12,20 @@
     <h1>Tic Tac Toe</h1>
 
     <!-- ⚙️ Settings button -->
-    <button id="settings-btn" title="Settings">⚙️</button>
+    <div id="top-right">
+        <button id="leaderboard-btn" title="Leaderboard">🏆</button>
+        <button id="settings-btn" title="Settings">⚙️</button>
+    </div>
 
-    <!-- Settings panel -->
-    <div id="settings-panel" class="hidden" style="display: none;">
+
+    <!-- Leaderboard Panel-->
+    <div id="leaderboard-panel" class="hidden">
+        <h3>Weekly Leaderboard</h3>
+        <div id="leaderboard-list">No entries yet</div>
+    </div>
+
+    <!-- Settings Panel -->
+    <div id="settings-panel" class="hidden">
         <h3>Settings</h3>
 
         <button id="theme-toggle">Toggle Dark / Light Mode</button>
