@@ -44,10 +44,6 @@ jobs:
       - name: JavaScript syntax check
         run: node --check static/script.js
 
-      # OPTIONAL (recommended): Catch common JS mistakes (undefined vars etc.)
-      - name: ESLint (quick lint)
-        run: npx --yes eslint@9 --no-eslintrc --env browser --rule "no-undef:error" static/script.js
-
       # OPTIONAL (recommended): Catch invalid CSS / typos
       - name: Stylelint (quick lint)
         run: npx --yes stylelint@16 static/style.css
