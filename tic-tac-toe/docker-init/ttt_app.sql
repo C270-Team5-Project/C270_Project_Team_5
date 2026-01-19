@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS users (
 
 INSERT INTO users (username, wins, losses, draws) VALUES
 ('Alice', 0, 0, 0),
-('Bob', 0, 0, 0);
+('Bob', 0, 0, 1);
 
 
 -- 'This is just temporary data, will change everything after the scoring format has been confirmed ^^' -Eleanor
