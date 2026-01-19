@@ -77,5 +77,32 @@ jobs:
           sleep 5
           docker logs test-container
           docker stop test-container
-          docker rm test-container 
+          docker rm test-container
+
+      - name: Start Flask App for E2E Tests
+        run: python app.py > flask.log 2>&1 &
+        
+      - name: Wait for Flask App to be Ready
+        run: |
+          echo "Waiting for Flask app to start..."
+          for i in {1..30}; do
+            if curl -s http://localhost:3306/ > /dev/null; then
+              echo "✅ Flask app is ready"
+              exit 0
+            fi
+            echo "Attempt $i/30: Waiting for app..."
+            sleep 1
+          done
+          echo "❌ Flask app failed to start"
+          cat flask.log
+          exit 1
+
+      - name: Run Playwright E2E Tests
+        run: npx playwright test tests/e2e/game.spec.js --reporter=list
+        continue-on-error: true
+
+      - name: Stop Flask App
+        run: |
+          pkill -f "python app.py" || true
+          sleep 1 
 
