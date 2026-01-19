@@ -61,4 +61,3 @@ jobs:
           
           # This executes your automated test suite
           # pytest tests/ --maxfail=1 --disable-warnings -q || (echo "❌ Some tests failed!" && exit 1) 
-
