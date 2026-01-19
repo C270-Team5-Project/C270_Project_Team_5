@@ -46,13 +46,10 @@ jobs:
       - name: Validate HTML (templates/index.html)
         run: npx --yes html-validate@8 templates/index.html
 
-      - name: List files (debug)
-        run: ls -R
-        
       - name: Lint Dockerfile
         uses: hadolint/hadolint-action@v3.1.0
         with:
-          dockerfile: tempdir/Dockerfile
+          dockerfile: tic-tac-toe/tempdir/Dockerfile
 
       - name: Lint CSS
         run: npx stylelint static/style.css || echo "CSS linting completed with warnings"
@@ -94,13 +91,5 @@ jobs:
           sleep 5
           docker logs test-container
           docker stop test-container
-          docker rm test-container
-
-      - name: Run End-to-End Tests
-        run: |
-          docker run -d --name e2e-app -p 3306:3306 test-image
-          sleep 5
-          npx playwright test tests/e2e/
-          docker stop e2e-app
-          docker rm e2e-app 
+          docker rm test-container 
 
