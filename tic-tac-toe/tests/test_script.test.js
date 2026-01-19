@@ -111,7 +111,7 @@ describe('Game Logic', () => {
   });
 
   test('no winning move', () => {
-    const testBoard = ['X', 'O', 'O', 'X', 'X', 'O', '', '', ''];
+    const testBoard = ['X', 'O', '', 'O', 'X', '', '', '', 'O'];
     expect(findWinningMove('X', testBoard)).toBe(null);
   });
 });
