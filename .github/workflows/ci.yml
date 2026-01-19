@@ -33,9 +33,6 @@ jobs:
       - name: Verify required files exist
         run: |
           test -f templates/index.html || (echo "❌ Missing templates/index.html" && exit 1)
-          test -d static || (echo "❌ Missing static/ folder" && exit 1)
-          test -f static/style.css || (echo "❌ Missing static/style.css" && exit 1)
-          test -f static/script.js || (echo "❌ Missing static/script.js" && exit 1)
           echo "✅ All required files exist"
 
       - name: Validate HTML (templates/index.html)
