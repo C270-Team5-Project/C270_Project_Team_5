@@ -47,7 +47,7 @@ jobs:
         run: node --check static/script.js
 
       - name: Run JavaScript Tests
-        run: npx jest tests/test_script.test.js
+          run: npx jest
 
       - name: Set up Python
         uses: actions/setup-python@v4

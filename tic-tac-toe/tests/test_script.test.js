@@ -1,9 +1,5 @@
-const { JSDOM } = require('jsdom');
-
-// Setup JSDOM for DOM-dependent tests
-const dom = new JSDOM('<!DOCTYPE html><html><body></body></html>');
-global.document = dom.window.document;
-global.window = dom.window;
+// Note: Avoid importing jsdom directly to prevent ESM/CommonJS issues in Jest.
+// These tests don't require a real DOM; they validate pure functions.
 
 // Mock the leaderboard data and functions (copy from script.js)
 let leaderboardData = [
