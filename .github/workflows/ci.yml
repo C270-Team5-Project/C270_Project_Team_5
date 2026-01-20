@@ -24,6 +24,7 @@ jobs:
       - name: Install Node Dependencies
         run: |
           npm install jest --save-dev
+          npm install @playwright/test --save-dev
           npx playwright install --with-deps
 
       - name: Show folder structure (debug)
