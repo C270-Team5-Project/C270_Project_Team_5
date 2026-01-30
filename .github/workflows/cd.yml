@@ -6,6 +6,7 @@ on:
 
 permissions:
   contents: read
+  security-events: write   # needed so SARIF upload works (Trivy results in Security tab)
 
 jobs:
   deploy:
@@ -18,7 +19,7 @@ jobs:
         run: docker swarm init || true
 
       - name: Cache Docker layers
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-buildx-${{ hashFiles('tic-tac-toe/tempdir/Dockerfile') }}
@@ -47,15 +48,15 @@ jobs:
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
       - name: Scan Docker Image for Vulnerabilities
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@0.24.0   # pin instead of @master
         with:
           scan-type: 'image'
-          scan-ref: 'tttapp:${{ github.sha }}'
+          image-ref: 'tttapp:${{ github.sha }}'
           format: 'sarif'
           output: 'trivy-results.sarif'
 
       - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@v3   # newer upload action
         if: always()
         with:
           sarif_file: 'trivy-results.sarif'
@@ -66,7 +67,7 @@ jobs:
           docker stack deploy -c tic-tac-toe/stack.yml tttstack
 
       - name: Validate Stack Configuration
-        run: docker-compose -f tic-tac-toe/stack.yml config
+        run: docker compose -f tic-tac-toe/stack.yml config   
 
       - name: Check Stack Status
         run: docker stack ps tttstack
