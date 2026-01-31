@@ -73,7 +73,7 @@ jobs:
       # Removed duplicate docker-compose validation
 
       - name: Test Docker Build
-        run: docker build -f tempdir/Dockerfile -t test-image .
+        run: docker build -f Dockerfile -t test-image .
 
       - name: Smoke Test Container
         run: |
