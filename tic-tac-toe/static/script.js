@@ -267,3 +267,5 @@ window.addEventListener("load", () => {
   updateTurnText();
   updateScoreboard();
 });
+
+// testing CodeQL PR scan
