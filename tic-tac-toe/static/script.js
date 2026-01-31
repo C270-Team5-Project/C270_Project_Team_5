@@ -10,23 +10,60 @@ const leaderboardBtn = document.getElementById("leaderboard-btn");
 const leaderboardPanel = document.getElementById("leaderboard-panel");
 const leaderboardList = document.getElementById("leaderboard-list");
 
-/* ================= LEADERBOARD (DEMO) ================= */
+/* ================= LEADERBOARD (DATABASE) ================= */
 
-// Demo data (replace later with DB/MySQL)
-let leaderboardData = [
-  { name: "Player 1", best: 3126 },
-  { name: "Player 2", best: 2864 },
-  { name: "Player 3", best: 2021 },
-  { name: "Player 4", best: 1796 },
-  { name: "Player 5", best: 1642 },
-  { name: "Player 6", best: 1627 },
-  { name: "Player 7", best: 1555 }
-];
+let leaderboardData = [];
+
+async function fetchLeaderboard() {
+  try {
+    const response = await fetch('/api/leaderboard');
+    if (!response.ok) throw new Error('Failed to fetch leaderboard');
+    
+    leaderboardData = await response.json();
+    renderLeaderboard();
+  } catch (error) {
+    console.error('Error fetching leaderboard:', error);
+    // Fallback to demo data if database fails
+    leaderboardData = [
+      { name: "Player 1", best: 3126 },
+      { name: "Player 2", best: 2864 },
+      { name: "Player 3", best: 2021 }
+    ];
+    renderLeaderboard();
+  }
+}
+
+async function saveScore(playerName, score) {
+  try {
+    const response = await fetch('/api/score', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        player_name: playerName,
+        score: score
+      })
+    });
+    
+    if (!response.ok) throw new Error('Failed to save score');
+    
+    // Refresh leaderboard after saving
+    await fetchLeaderboard();
+  } catch (error) {
+    console.error('Error saving score:', error);
+  }
+}
 
 function renderLeaderboard() {
   if (!leaderboardList) return;
 
   const data = [...leaderboardData].sort((a, b) => b.best - a.best).slice(0, 10);
+
+  if (data.length === 0) {
+    leaderboardList.innerHTML = '<div class="lb-empty">No scores yet. Be the first!</div>';
+    return;
+  }
 
   leaderboardList.innerHTML = data
     .map((row, i) => {
@@ -63,6 +100,10 @@ if (leaderboardBtn && leaderboardPanel) {
   leaderboardBtn.addEventListener("click", (e) => {
     e.stopPropagation();
     leaderboardPanel.classList.toggle("hidden");
+    // Refresh leaderboard when opened
+    if (!leaderboardPanel.classList.contains("hidden")) {
+      fetchLeaderboard();
+    }
   });
 
   leaderboardPanel.addEventListener("click", (e) => e.stopPropagation());
@@ -92,6 +133,7 @@ const winningThreeCombinations = [
 /* ================= SCOREBOARD ================= */
 
 let scores = { player: 0, computer: 0, tie: 0 };
+let playerName = null;
 
 function updateScoreboard() {
   const p = document.getElementById("player-score");
@@ -128,6 +170,19 @@ function updateTurnText() {
     statusText.textContent =
       currentPlayer === "X" ? "Player X's turn" : "Player O's turn";
   }
+}
+
+function promptPlayerName() {
+  const name = prompt("Enter your name for the leaderboard:");
+  if (name && name.trim()) {
+    playerName = name.trim();
+    localStorage.setItem('playerName', playerName);
+  }
+}
+
+function calculateTotalScore() {
+  // Calculate score: wins * 100, ties * 10
+  return (scores.player * 100) + (scores.tie * 10);
 }
 
 /* ================= GAME LOGIC ================= */
@@ -168,6 +223,17 @@ function checkResult() {
       }
 
       updateScoreboard();
+      
+      // Save score to database if player won
+      if (currentPlayer === "X" && scores.player > 0) {
+        if (!playerName) {
+          promptPlayerName();
+        }
+        if (playerName) {
+          saveScore(playerName, calculateTotalScore());
+        }
+      }
+      
       return;
     }
   }
@@ -178,6 +244,17 @@ function checkResult() {
     scores.tie++;
     statusText.textContent = "It's a tie!";
     updateScoreboard();
+    
+    // Save score for tie as well
+    if (scores.player > 0 || scores.tie > 1) {
+      if (!playerName) {
+        promptPlayerName();
+      }
+      if (playerName) {
+        saveScore(playerName, calculateTotalScore());
+      }
+    }
+    
     return;
   }
 
@@ -195,6 +272,11 @@ function resetGame() {
 }
 
 function resetScores() {
+  // Save final score before reset if player has any score
+  if ((scores.player > 0 || scores.tie > 0) && playerName) {
+    saveScore(playerName, calculateTotalScore());
+  }
+  
   scores = { player: 0, computer: 0, tie: 0 };
   updateScoreboard();
 }
@@ -261,8 +343,14 @@ window.addEventListener("load", () => {
     document.body.classList.add("dark");
   }
 
+  // Load saved player name
+  const savedName = localStorage.getItem('playerName');
+  if (savedName) {
+    playerName = savedName;
+  }
+
   hidePanelsOnStart();
-  renderLeaderboard();
+  fetchLeaderboard(); // Load leaderboard from database
   updateScoreLabels();
   updateTurnText();
   updateScoreboard();
