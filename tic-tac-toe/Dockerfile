@@ -2,7 +2,7 @@ FROM python
 
 WORKDIR /C270_Project_Team_5/tic-tac-toe
 
-RUN pip install flask mysql-connector-python
+RUN pip install flask mysql-connector-python prometheus-client
 
 COPY ./static ./static/
 COPY ./templates ./templates/

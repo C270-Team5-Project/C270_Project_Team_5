@@ -1,8 +1,16 @@
 from flask import Flask, render_template, jsonify, request
 import mysql.connector
 from mysql.connector import Error
+from prometheus_client import Counter, Histogram, generate_latest, CONTENT_TYPE_LATEST
+import time
 
 app = Flask(__name__)
+
+# Prometheus metrics
+request_count = Counter('http_requests_total', 'Total HTTP requests', ['method', 'endpoint', 'status'])
+request_duration = Histogram('http_request_duration_seconds', 'HTTP request duration')
+db_connection_errors = Counter('db_connection_errors_total', 'Database connection errors')
+leaderboard_updates = Counter('leaderboard_updates_total', 'Leaderboard updates', ['action'])
 
 # Database configuration
 DB_CONFIG = {
@@ -20,11 +28,30 @@ def get_db_connection():
         return connection
     except Error as e:
         print(f"Error connecting to MySQL: {e}")
+        db_connection_errors.inc()
         return None
+
+@app.before_request
+def before_request():
+    """Track request start time"""
+    request.start_time = time.time()
+
+@app.after_request
+def after_request(response):
+    """Record request metrics"""
+    if hasattr(request, 'start_time'):
+        request_duration.observe(time.time() - request.start_time)
+    request_count.labels(request.method, request.endpoint or 'unknown', response.status_code).inc()
+    return response
 
 @app.route("/")
 def home():
     return render_template("index.html")
+
+@app.route("/metrics")
+def metrics():
+    """Prometheus metrics endpoint"""
+    return generate_latest(), 200, {'Content-Type': CONTENT_TYPE_LATEST}
 
 @app.route("/api/leaderboard", methods=["GET"])
 def get_leaderboard():
@@ -83,6 +110,7 @@ def add_score():
                 update_query = "UPDATE leaderboard SET best_score = %s WHERE id = %s"
                 cursor.execute(update_query, (score, existing_player['id']))
                 connection.commit()
+                leaderboard_updates.labels(action='update').inc()
                 message = f"Updated {player_name}'s score to {score}"
             else:
                 message = f"Score not updated. Current best: {existing_player['best_score']}"
@@ -91,6 +119,7 @@ def add_score():
             insert_query = "INSERT INTO leaderboard (name, best_score) VALUES (%s, %s)"
             cursor.execute(insert_query, (player_name, score))
             connection.commit()
+            leaderboard_updates.labels(action='insert').inc()
             message = f"Added {player_name} to leaderboard with score {score}"
         
         cursor.close()

@@ -5,3 +5,5 @@ database environment:
   DB_NAME: ttt_app_listweight
   DB_USER: ttt_app_listweight
   DB_PASSWORD: 15c5b65ce12d927dd44652183d83a44196a54474
+
+  to access the database on the MySQL Workbench, use this basically when entering connection -Eleanor
