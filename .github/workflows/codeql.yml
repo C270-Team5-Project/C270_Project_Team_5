@@ -1,13 +1,9 @@
-# For most projects, this workflow file will not need changing; you simply need
-# to commit it to your repository.
+# CodeQL Advanced Security Scanning
+# Analyzes code for security vulnerabilities and coding errors
+# Supports: GitHub Actions workflows, JavaScript/TypeScript, and Python
 #
-# You may wish to alter this file to override the set of languages analyzed,
-# or to provide custom queries or build logic.
-#
-# ******** NOTE ********
-# We have attempted to detect the languages in your repository. Please check
-# the `language` matrix defined below to confirm you have the correct set of
-# supported CodeQL languages.
+# Note: First-time setup may show "configurations not found" warning
+# This is normal and will resolve after merging to main branch
 #
 name: "CodeQL Advanced"
 
