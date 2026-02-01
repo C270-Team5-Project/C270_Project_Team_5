@@ -10,18 +10,63 @@ const leaderboardBtn = document.getElementById("leaderboard-btn");
 const leaderboardPanel = document.getElementById("leaderboard-panel");
 const leaderboardList = document.getElementById("leaderboard-list");
 
-/* ================= LEADERBOARD (DEMO) ================= */
+const nameModal = document.getElementById("name-modal");
+const playerNameInput = document.getElementById("player-name-input");
+const startGameBtn = document.getElementById("start-game-btn");
 
-// Demo data (replace later with DB/MySQL)
-let leaderboardData = [
-  { name: "Player 1", best: 3126 },
-  { name: "Player 2", best: 2864 },
-  { name: "Player 3", best: 2021 },
-  { name: "Player 4", best: 1796 },
-  { name: "Player 5", best: 1642 },
-  { name: "Player 6", best: 1627 },
-  { name: "Player 7", best: 1555 }
-];
+/* ================= PLAYER NAME ================= */
+
+let playerName = localStorage.getItem("playerName") || "";
+
+/* ================= LEADERBOARD (DATABASE) ================= */
+
+let leaderboardData = [];
+
+async function fetchLeaderboard() {
+  try {
+    const response = await fetch('/api/leaderboard');
+    if (response.ok) {
+      leaderboardData = await response.json();
+      renderLeaderboard();
+    } else {
+      console.error(`Failed to fetch leaderboard: ${response.status} ${response.statusText}`);
+    }
+  } catch (error) {
+    console.error("Error fetching leaderboard:", error);
+  }
+}
+
+async function submitScore(score) {
+  if (!playerName) {
+    console.warn("No player name set, cannot submit score");
+    return;
+  }
+  
+  try {
+    const response = await fetch('/api/leaderboard', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 
+        name: playerName, 
+        score: score 
+      })
+    });
+    
+    if (response.ok) {
+      const result = await response.json();
+      console.log(result.message);
+      await fetchLeaderboard();
+    } else {
+      console.error(
+        "Failed to submit score. Status:", 
+        response.status, 
+        response.statusText
+      );
+    }
+  } catch (error) {
+    console.error("Error submitting score:", error);
+  }
+}
 
 function renderLeaderboard() {
   if (!leaderboardList) return;
@@ -29,16 +74,53 @@ function renderLeaderboard() {
   const data = [...leaderboardData].sort((a, b) => b.best - a.best).slice(0, 10);
 
   leaderboardList.innerHTML = data
-    .map((row, i) => {
+    .map((row, index) => {
       return `
         <div class="lb-item">
-          <div class="lb-rank">${i + 1}</div>
+          <div class="lb-rank">${index + 1}</div>
           <div class="lb-name">${row.name}</div>
           <div class="lb-score">${row.best}</div>
         </div>
       `;
     })
     .join("");
+}
+
+/* ================= NAME MODAL ================= */
+
+function showNameModal() {
+  if (playerName) {
+    nameModal.classList.add("hidden");
+    return;
+  }
+  nameModal.classList.remove("hidden");
+}
+
+function hideNameModal() {
+  nameModal.classList.add("hidden");
+}
+
+if (startGameBtn) {
+  startGameBtn.addEventListener("click", () => {
+    const name = playerNameInput.value.trim();
+    if (name) {
+      playerName = name;
+      localStorage.setItem("playerName", playerName);
+      hideNameModal();
+      updateScoreLabels();
+    } else {
+      alert("Please enter your name to start playing!");
+    }
+  });
+}
+
+// Allow Enter key to submit name
+if (playerNameInput) {
+  playerNameInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+      startGameBtn.click();
+    }
+  });
 }
 
 /* ================= PANEL TOGGLE (MANUAL CONTROL) ================= */
@@ -110,7 +192,7 @@ function updateScoreLabels() {
   if (!leftLabel || !rightLabel) return;
 
   if (mode === "bot") {
-    leftLabel.textContent = "Player";
+    leftLabel.textContent = playerName ? playerName : "Player";
     rightLabel.textContent = "Bot";
   } else {
     leftLabel.textContent = "Player X";
@@ -123,7 +205,7 @@ function updateTurnText() {
 
   if (mode === "bot") {
     statusText.textContent =
-      currentPlayer === "X" ? "Player X's turn" : "Bot's turn";
+      currentPlayer === "X" ? `${playerName ? playerName : "Player"}'s turn` : "Bot's turn";
   } else {
     statusText.textContent =
       currentPlayer === "X" ? "Player X's turn" : "Player O's turn";
@@ -158,8 +240,14 @@ function checkResult() {
       gameActive = false;
 
       // scoring (both modes)
-      if (currentPlayer === "X") scores.player++;
-      else scores.computer++;
+      if (currentPlayer === "X") {
+        scores.player++;
+        // Submit score to database (100 points per win)
+        const totalScore = scores.player * 100;
+        submitScore(totalScore);
+      } else {
+        scores.computer++;
+      }
 
       if (mode === "bot") {
         statusText.textContent = currentPlayer === "X" ? "You win!" : "Bot wins!";
@@ -262,7 +350,13 @@ window.addEventListener("load", () => {
   }
 
   hidePanelsOnStart();
-  renderLeaderboard();
+  
+  // Fetch leaderboard from database
+  fetchLeaderboard();
+  
+  // Show name modal if no name is set
+  showNameModal();
+  
   updateScoreLabels();
   updateTurnText();
   updateScoreboard();
