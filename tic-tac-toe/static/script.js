@@ -29,7 +29,7 @@ async function fetchLeaderboard() {
       leaderboardData = await response.json();
       renderLeaderboard();
     } else {
-      console.error("Failed to fetch leaderboard");
+      console.error(`Failed to fetch leaderboard: ${response.status} ${response.statusText}`);
     }
   } catch (error) {
     console.error("Error fetching leaderboard:", error);
