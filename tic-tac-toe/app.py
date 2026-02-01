@@ -6,13 +6,13 @@ import time
 
 app = Flask(__name__)
 
-# Prometheus metrics
+#====================   PROMETHEUS METRICS ====================#
 request_count = Counter('http_requests_total', 'Total HTTP requests', ['method', 'endpoint', 'status'])
 request_duration = Histogram('http_request_duration_seconds', 'HTTP request duration')
 db_connection_errors = Counter('db_connection_errors_total', 'Database connection errors')
 leaderboard_updates = Counter('leaderboard_updates_total', 'Leaderboard updates', ['action'])
 
-# Database configuration
+#==================== DATABASE CONFIGURATION ====================#
 DB_CONFIG = {
     'host': 'yttlzg.h.filess.io',
     'port': 3307,
@@ -99,13 +99,13 @@ def add_score():
     try:
         cursor = connection.cursor(dictionary=True)
         
-        # Check if player exists
+        # Checking if the player exists inside the database 
         check_query = "SELECT id, best_score FROM leaderboard WHERE name = %s"
         cursor.execute(check_query, (player_name,))
         existing_player = cursor.fetchone()
         
         if existing_player:
-            # Update only if new score is higher
+            # Update only if new score is higher (Basically adding onto the existing score)
             if score > existing_player['best_score']:
                 update_query = "UPDATE leaderboard SET best_score = %s WHERE id = %s"
                 cursor.execute(update_query, (score, existing_player['id']))
@@ -115,7 +115,7 @@ def add_score():
             else:
                 message = f"Score not updated. Current best: {existing_player['best_score']}"
         else:
-            # Insert new player
+            # Inserting a new player into the database
             insert_query = "INSERT INTO leaderboard (name, best_score) VALUES (%s, %s)"
             cursor.execute(insert_query, (player_name, score))
             connection.commit()

@@ -55,7 +55,6 @@ async function submitScore(score) {
     if (response.ok) {
       const result = await response.json();
       console.log(result.message);
-      // Refresh leaderboard after submitting
       await fetchLeaderboard();
     } else {
       console.error("Failed to submit score");
