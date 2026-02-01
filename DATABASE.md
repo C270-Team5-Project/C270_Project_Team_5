@@ -35,5 +35,5 @@ ON DUPLICATE KEY UPDATE best_score = VALUES(best_score);
 ======== ADDITIONAL DETAILS ========
 - filess.io URL = https://panel.filess.io/shared/8560ca9f-096d-4410-8b0d-e72cee1e0f6a
 - Use 'SELECT * FROM ttt_app_listweight.leaderboard;' to preview the entire table, and run using the 'Under Keyboard Cursor' button. 
-- Inside MySQL, there is an "Edit" section for the tables. This is used if we want to delete or rename variables inside the databse. Adding new values are not reccomended to be done with Workbench, but it is possible. 
+- Inside MySQL, there is an "Edit" section for the tables, then click on "Apply" to make changes. This is used if we want to delete or rename variables inside the databse. Adding new values are not reccomended to be done with Workbench, but it is possible. 
 - If there is any problems with the Database, please let Eleanor know before making tweaks ^u^

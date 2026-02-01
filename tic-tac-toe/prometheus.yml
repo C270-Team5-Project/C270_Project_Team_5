@@ -4,6 +4,9 @@ global:
 
 scrape_configs:
   - job_name: 'tic-tac-toe'
-    static_configs:
-      - targets: ['tictactoe:3306']
+    dns_sd_configs:
+      - names:
+          - 'tasks.tictactoe_tictactoe'
+        type: 'A'
+        port: 3306
     metrics_path: '/metrics'
