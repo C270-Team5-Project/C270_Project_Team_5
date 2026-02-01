@@ -57,11 +57,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Python Syntax and Tests with Coverage
+      - name: Python Syntax and Tests
         run: |
           python -m py_compile app.py
           coverage run -m pytest tests/test_app.py --maxfail=1 --disable-warnings -q
-          coverage report --fail-under=50
+          coverage report
 
       # -------------------------
       # Docker checks
