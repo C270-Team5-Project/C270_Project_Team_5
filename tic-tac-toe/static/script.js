@@ -29,7 +29,7 @@ async function fetchLeaderboard() {
       leaderboardData = await response.json();
       renderLeaderboard();
     } else {
-      console.error("Failed to fetch leaderboard");
+      console.error(`Failed to fetch leaderboard: ${response.status} ${response.statusText}`);
     }
   } catch (error) {
     console.error("Error fetching leaderboard:", error);
@@ -57,7 +57,11 @@ async function submitScore(score) {
       console.log(result.message);
       await fetchLeaderboard();
     } else {
-      console.error("Failed to submit score");
+      console.error(
+        "Failed to submit score. Status:", 
+        response.status, 
+        response.statusText
+      );
     }
   } catch (error) {
     console.error("Error submitting score:", error);
@@ -70,10 +74,10 @@ function renderLeaderboard() {
   const data = [...leaderboardData].sort((a, b) => b.best - a.best).slice(0, 10);
 
   leaderboardList.innerHTML = data
-    .map((row, i) => {
+    .map((row, index) => {
       return `
         <div class="lb-item">
-          <div class="lb-rank">${i + 1}</div>
+          <div class="lb-rank">${index + 1}</div>
           <div class="lb-name">${row.name}</div>
           <div class="lb-score">${row.best}</div>
         </div>
