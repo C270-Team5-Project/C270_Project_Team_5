@@ -2,8 +2,9 @@ FROM python
 
 WORKDIR /C270_Project_Team_5/tic-tac-toe
 
-RUN pip install flask mysql-connector-python prometheus-client 
-#Eleanor's Input. This is for database and prometheus, don't remove.
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
 
 COPY ./static ./static/
 COPY ./templates ./templates/
