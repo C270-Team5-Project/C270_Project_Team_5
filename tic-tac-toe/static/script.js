@@ -70,10 +70,10 @@ function renderLeaderboard() {
   const data = [...leaderboardData].sort((a, b) => b.best - a.best).slice(0, 10);
 
   leaderboardList.innerHTML = data
-    .map((row, i) => {
+    .map((row, index) => {
       return `
         <div class="lb-item">
-          <div class="lb-rank">${i + 1}</div>
+          <div class="lb-rank">${index + 1}</div>
           <div class="lb-name">${row.name}</div>
           <div class="lb-score">${row.best}</div>
         </div>
