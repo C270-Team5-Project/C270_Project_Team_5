@@ -89,7 +89,7 @@ jobs:
       - name: Wait for Flask App
         run: |
           for i in {1..30}; do
-            if curl -s http://localhost:5000/ > /dev/null; then
+            if curl -s http://localhost:3306/ > /dev/null; then
               echo "✅ Flask app is ready"
               exit 0
             fi
