@@ -105,7 +105,7 @@ def add_score():
         existing_player = cursor.fetchone()
         
         if existing_player:
-            # Update only if new score is higher (Basically adding onto the existing score)
+            # Update only if the new score is higher (Basically adding onto the existing score)
             if score > existing_player['best_score']:
                 update_query = "UPDATE leaderboard SET best_score = %s WHERE id = %s"
                 cursor.execute(update_query, (score, existing_player['id']))
