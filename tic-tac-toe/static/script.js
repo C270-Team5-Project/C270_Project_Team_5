@@ -1,3 +1,5 @@
+/* Le Ying */
+
 const cells = document.querySelectorAll(".cell");
 const statusText = document.getElementById("status");
 const themeToggle = document.getElementById("theme-toggle");
