@@ -15,3 +15,5 @@ EXPOSE 3306
 ENV FLASK_DEBUG=0
 
 CMD ["python", "-c", "from app import app; app.run(host='0.0.0.0', port=3306, debug=False)"]
+
+# Done by Bryan

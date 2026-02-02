@@ -4,7 +4,8 @@
 #
 # Note: First-time setup may show "configurations not found" warning
 # This is normal and will resolve after merging to main branch
-#
+# Le Ying
+
 name: "CodeQL Advanced"
 
 on:

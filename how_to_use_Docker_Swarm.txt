@@ -18,4 +18,6 @@ docker rm -f tttstack_tictactoe.1 (service name)
 docker stack rm tttstack
 docker swarm leave --force
 
+Written by Bryan
+
 

@@ -10,3 +10,5 @@ scrape_configs:
         type: 'A'
         port: 3306
     metrics_path: '/metrics'
+
+#Done by Eleanor

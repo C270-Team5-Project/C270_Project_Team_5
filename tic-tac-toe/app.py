@@ -4,6 +4,7 @@ from mysql.connector import Error
 from prometheus_client import Counter, Histogram, generate_latest, CONTENT_TYPE_LATEST
 import time
 
+#Done by Eleanor  
 app = Flask(__name__)
 
 #====================   PROMETHEUS METRICS ====================#
