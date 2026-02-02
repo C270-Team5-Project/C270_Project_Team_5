@@ -19,7 +19,7 @@ jobs:
         run: docker swarm init || true
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@d70bba72b1f3ba9426ffccee50fda16eab2f6371
 
       - name: Lint Python Code
         run: |
@@ -29,7 +29,7 @@ jobs:
           flake8 tic-tac-toe/app.py --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
       - name: Build Docker Image
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@ca052bb3b1d35eba4bac628c9e1885f8cecdf233
         with:
           context: ./tic-tac-toe
           file: ./tic-tac-toe/Dockerfile
@@ -38,7 +38,7 @@ jobs:
           load: true
 
       - name: Scan Docker Image for Vulnerabilities
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@6e7827e85c34919dd3d348991dd5186771501891
         with:
           image-ref: 'tttapp:${{ github.sha }}'
           format: 'sarif'
