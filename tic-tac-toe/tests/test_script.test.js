@@ -1,3 +1,4 @@
+// Jun Kai
 // Note: These tests validate pure game logic functions from script.js
 // Game state for testing
 let board = ["", "", "", "", "", "", "", "", ""];
