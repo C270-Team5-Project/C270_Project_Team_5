@@ -1,6 +1,6 @@
 from flask import Flask, render_template, jsonify, request
 import mysql.connector
-from mysql.connector import Error
+from mysql.connector import Error, pooling
 from prometheus_client import Counter, Histogram, generate_latest, CONTENT_TYPE_LATEST
 import time
 
@@ -22,11 +22,29 @@ DB_CONFIG = {
     'password': '15c5b65ce12d927dd44652183d83a44196a54474'
 }
 
+# Create connection pool (reuse connections instead of creating new ones)
+try:
+    connection_pool = pooling.MySQLConnectionPool(
+        pool_name="mypool",
+        pool_size=2,  # Keep pool small to stay under 5 connection limit
+        pool_reset_session=True,
+        **DB_CONFIG
+    )
+    print("Database connection pool created successfully")
+except Error as e:
+    print(f"Error creating connection pool: {e}")
+    connection_pool = None
+
 def get_db_connection():
-    """Create and return a database connection"""
+    """Get a connection from the pool"""
     try:
-        connection = mysql.connector.connect(**DB_CONFIG)
-        return connection
+        if connection_pool:
+            connection = connection_pool.get_connection()
+            return connection
+        else:
+            # Fallback to direct connection if pool failed
+            connection = mysql.connector.connect(**DB_CONFIG)
+            return connection
     except Error as e:
         print(f"Error connecting to MySQL: {e}")
         db_connection_errors.inc()
@@ -77,6 +95,8 @@ def get_leaderboard():
         return jsonify(results), 200
     except Error as e:
         print(f"Error fetching leaderboard: {e}")
+        if connection:
+            connection.close()
         return jsonify({"error": "Failed to fetch leaderboard"}), 500
 
 @app.route("/api/leaderboard", methods=["POST"])
@@ -129,7 +149,9 @@ def add_score():
         return jsonify({"success": True, "message": message}), 200
     except Error as e:
         print(f"Error updating leaderboard: {e}")
+        if connection:
+            connection.close()
         return jsonify({"error": "Failed to update leaderboard"}), 500
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=False, port=3306)
+    app.run(host="0.0.0.0", debug=False, port=5000)

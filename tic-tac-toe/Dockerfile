@@ -10,10 +10,10 @@ COPY ./static ./static/
 COPY ./templates ./templates/
 COPY ./app.py ./app.py
 
-EXPOSE 3306
+EXPOSE 5000
 
 ENV FLASK_DEBUG=0
 
-CMD ["python", "-c", "from app import app; app.run(host='0.0.0.0', port=3306, debug=False)"]
+CMD ["python", "-c", "from app import app; app.run(host='0.0.0.0', port=5000, debug=False)"]
 
 # Done by Bryan
