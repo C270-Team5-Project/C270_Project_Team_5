@@ -28,4 +28,4 @@ If you discover a security vulnerability in this project, please report it respo
 - Contact the project team via our repository maintainers.
 - Provide clear steps to reproduce the issue if possible.
 
-We will review the report and take appropriate action.
+We will review the report and take appropriate action..
