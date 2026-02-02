@@ -14,6 +14,8 @@ const nameModal = document.getElementById("name-modal");
 const playerNameInput = document.getElementById("player-name-input");
 const startGameBtn = document.getElementById("start-game-btn");
 
+//Done by Eleanor and Le Ying
+
 /* ================= PLAYER NAME ================= */
 
 let playerName = localStorage.getItem("playerName") || "";

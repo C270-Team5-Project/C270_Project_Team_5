@@ -26,7 +26,7 @@ services:
       retries: 3
       start_period: 10s
 
-  prometheus:
+  prometheus: 
     image: prom/prometheus:latest
     ports:
       - "9090:9090"
@@ -40,4 +40,6 @@ services:
     deploy:
       replicas: 1
       restart_policy:
-        condition: on-failure
+        condition: on-failure # Prometheus section ONLY, done by Eleanor 
+
+#Done by Bryan
