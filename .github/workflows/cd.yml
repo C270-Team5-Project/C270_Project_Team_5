@@ -30,7 +30,7 @@ jobs:
           flake8 tic-tac-toe/app.py --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
       - name: Build Docker Image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./tic-tac-toe
           file: ./tic-tac-toe/Dockerfile
