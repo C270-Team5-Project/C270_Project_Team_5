@@ -1,3 +1,4 @@
+// Eleanor //
 
 
 const cells = document.querySelectorAll(".cell");
