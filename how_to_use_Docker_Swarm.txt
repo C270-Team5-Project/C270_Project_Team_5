@@ -1,4 +1,4 @@
-docker swarm init (use "docker node ls" to check if it worked)
+ (use "docker node ls" to check if it worked)
 
 docker stack deploy -c stack.yml tttstack (tttstack is just the stack name, you can change to wtv u want)
 -NOTE- Use "docker stack ls", "docker service ls" and "docker ps -a" to check if it works
